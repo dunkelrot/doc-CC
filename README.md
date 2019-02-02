@@ -1,27 +1,241 @@
-# Gdc
+# Document Coding - client description
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+## For what is it good for?
 
-## Development server
+The DC-Client provides a simple UI to generate document codes (or document names) for 
+documents (or files). It is a pretty common requirement in large captial projects to 
+generate consistent document/file names which follow certain rules. This application helps
+the user to accomplish this task. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The DC-Client is a generic UI which requires a rules-server that provides a JSON structure 
+which describes how the document code is generated. 
+ 
+![Picture](./image.png)
 
-## Code scaffolding
+## How to use it?
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The client application expects a certain response from the server to work correct.
 
-## Build
+The client URL is:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+http://server.com/project/id
 
-## Running unit tests
+where 'id' is the project identifier which is provided to the content server via a GET call.``
+ 
+Example of the expected JSON response:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    {
+      segments: [
+        {
+          name: 'PROJECT',
+          displayName: 'Project',
+          fixed: true,
+          entries: [
+            {
+              name: 'LCP_0815',
+              value: 'LCP_0815',
+              id: 0
+            }
+          ]
+        },
+        {
+          name: 'FACILITY',
+          displayName: 'Facility Name',
+          entries: [
+            {
+              name: 'K-200',
+              value: 'K-200',
+              id: 0,
+              filters: [
+                {
+                  segment: 'TYPE',
+                  allowedIds: [1]
+                },
+                {
+                  segment: 'DISCIPLINE',
+                  allowedIds: [3]
+                }
+              ]
+            },
+            {
+              name: 'G-300',
+              value: 'G-300',
+              id: 0
+            }
+          ]
+        },
+        {
+          name: 'TYPE',
+          displayName: 'Type',
+          entries: [
+            {
+              name: 'Plot-Plan',
+              value: '200',
+              id: 0,
+            },
+            {
+              name: 'ISBL',
+              value: '300',
+              id: 0
+            },
+            {
+              name: 'Steelworks',
+              value: '320',
+              id: 1,
+              filters: [
+                {
+                  segment: 'DISCIPLINE',
+                  allowedIds: [1]
+                }
+              ]
+            },
+            {
+              name: 'Powergrids',
+              value: '400',
+              id: 2,
+              filters: [
+                {
+                  segment: 'DISCIPLINE',
+                  allowedIds: [2]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          name: 'DISCIPLINE',
+          displayName: 'Discipline',
+          entries: [
+            {
+              name: 'Civil',
+              value: 'CI',
+              id: 1
+            },
+            {
+              name: 'Electrical',
+              value: 'EI',
+              id: 2
+            },
+            {
+              name: 'Construction',
+              value: 'CO',
+              id: 1
+            },
+            {
+              name: 'Project Management',
+              value: 'PM',
+              id: 0
+            }
+          ]
+        },
+        {
+          name: 'FORMAT',
+          displayName: 'Format',
+          entries: [
+            {
+              name: 'PDF',
+              value: 'PDF',
+              id: 3
+            },
+            {
+              name: 'XML',
+              value: 'XML',
+              id: 3
+            },
+            {
+              name: 'ISO',
+              value: 'ISO',
+              id: 1
+            },
+            {
+              name: 'XLS',
+              value: 'XLS',
+              id: 0
+            }
+          ]
+        },
+        {
+          name: 'STATUS',
+          displayName: 'Status',
+          entries: [
+            {
+              name: 'Ready for Procurement',
+              value: 'RFP',
+              id: 0
+            },
+            {
+              name: 'Ready for Construction',
+              value: 'RFC',
+              id: 0
+            },
+            {
+              name: 'Ready for Detail Design',
+              value: 'RFD',
+              id: 0
+            },
+          ]
+        },
+        {
+          name: 'REVISION',
+          displayName: 'REVISION',
+          entries: [
+            {
+              name: 'Revision A',
+              value: 'A',
+              id: 0
+            },
+            {
+              name: 'Revision B',
+              value: 'B',
+              id: 0
+            },
+            {
+              name: 'Revision C',
+              value: 'C',
+              id: 0
+            },
+            {
+              name: 'Revision D',
+              value: 'D',
+              id: 0
+            }
+          ]
+        }
+      ]
+    };
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Basically the structure describes a set of code segments from which the overall 
+document code is derived. Each code segment has a set of entries. Each entry can hold a 
+filter which limits the available entries at subsequent segments.
 
-## Further help
+The filter works more or less like this:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* entries with an ID of 0 pass a filter always
+* otherwise only those values which match all filters are displayed
+
+Which segment a filters modifies is defined via the "segment" attribute of a filter.
+The array "allowedIds" contains all allowed IDs for the entries within the referenced segment.
+
+The filter mechanism is flexible but can lead to unexpected results :D
+
+Note that the ID for each segment has NO special meaning for the client besides: 
+* an ID of 0 passes a filter always
+* the ID should match with the filter definitions
+* the ID should be an integer value.
+
+To a add a code segment with a fixed value to all generated document codes just add the
+attribute "fixed:true" to the segment.
+
+### Worth to know
+
+The client can send a "beacon" (= a http GET request) to a configured endpoint to enable to 
+usage statistics of the service. Besides the standard HTTP information no other information is
+provided to the beacon server. 
+
+Most of the configuration is done in the 'environments' folder.
+
+## Versions
+
+* 1.0.0 - initial version
+ 
