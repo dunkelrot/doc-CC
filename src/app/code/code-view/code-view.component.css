@@ -1,0 +1,27 @@
+.code-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: #cdcdcd 1px solid;
+  border-radius: 4px;
+  padding: 0.4em;
+  font-size: 2em;
+  text-align: center;
+  line-height: 1.2;
+  background: beige;
+  min-height: 2em;
+  vertical-align: middle;
+}
+
+.code-copy-button {
+  margin-top:1em;
+  text-align: center;
+}
+
+.code-value {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:auto;
+}

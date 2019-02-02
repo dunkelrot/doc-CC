@@ -1,0 +1,43 @@
+.alert {
+  margin:1em;
+}
+
+.alert-title {
+  font-size: 1.6em;
+  margin-bottom: 6px;
+}
+
+.alert-main-reason {
+  font-size: 1.2em;
+  margin-bottom: 6px;
+}
+
+.alert-text {
+  background: burlywood;
+  border: 1px solid #666666;
+  padding:2px;
+}
+
+.alert-buttons {
+  margin-top:0.4em;
+}
+
+.alert-buttons button {
+  margin-right: 8px;
+}
+
+.app-alert {
+  padding: 1em;
+  background-color: #deb887;
+}
+
+.app-alert-success {
+  padding: 1em;
+  background-color: #1cde7c;
+}
+
+
+.app-alert-danger {
+  padding: 1em;
+  background-color: #de7e3a;
+}

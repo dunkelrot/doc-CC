@@ -1,0 +1,19 @@
+<section class="mat-typography">
+
+<div class="alert" *ngIf="message" [ngClass]="{ 'app-alert': message, 'app-alert-success': message.type === 'success', 'app-alert-danger': message.type === 'error' }">
+  <div class="alert-title">Error</div>
+  <div class="alert-text">
+    <div class="alert-main-reason">
+      {{message.text}}
+    </div>
+    <div *ngIf="stack !== undefined">
+      {{stack}}
+    </div>
+  </div>
+  <div class="alert-buttons">
+    <button mat-flat-button color="primary" (click)="onClose()">Ok</button>
+    <a href="mailto:{{mailAddress}}?subject=DC-ERROR&body={{mailMessage}}" mat-flat-button color="primary">E-Mail to support</a>
+  </div>
+</div>
+</section>
+
