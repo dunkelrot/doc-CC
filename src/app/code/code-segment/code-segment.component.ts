@@ -30,12 +30,7 @@ export class CodeSegmentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.filteredCodes = [];
-    this.codeSegment.entries.forEach((entry) => {
-      if (this.codeSegment.filters.hasId(entry.id)) {
-        this.filteredCodes.push(entry);
-      }
-    });
+    this.getFilteredEntries();
   }
 
   onSelectCode(selection: MatSelectChange) {
@@ -44,13 +39,8 @@ export class CodeSegmentComponent implements OnInit, OnChanges {
   }
 
   applyFilter(filterDefinition: CodeSegmentFilterDefinition) {
-    this.filteredCodes = [];
     this.codeSegment.filters.applyFilterDefinition(filterDefinition);
-    this.codeSegment.entries.forEach((entry) => {
-      if (this.codeSegment.filters.hasId(entry.id)) {
-        this.filteredCodes.push(entry);
-      }
-    });
+    this.getFilteredEntries();
   }
 
   getSelectedCode(): string {
@@ -61,4 +51,16 @@ export class CodeSegmentComponent implements OnInit, OnChanges {
     }
   }
 
+  getFilteredEntries() {
+    if (this.codeSegment.filtered) {
+      this.filteredCodes = [];
+      this.codeSegment.entries.forEach((entry) => {
+        if (this.codeSegment.filters.hasId(entry.id)) {
+          this.filteredCodes.push(entry);
+        }
+      });
+    } else {
+      this.filteredCodes = this.codeSegment.entries;
+    }
+  }
 }

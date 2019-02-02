@@ -1,9 +1,9 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {CodeSegment, CodeSegmentEntry, CodeSegmentFilter, CodeSegmentFilterDefinition} from '../../_shared/code';
+import {CodeSegment, CodeSegmentEntry} from '../../_shared/code';
 import {CodeService} from '../../_shared/code-service';
 import {CodeSegmentComponent} from '../code-segment/code-segment.component';
 import {AlertService} from '../../_shared/alert-service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-code-view',

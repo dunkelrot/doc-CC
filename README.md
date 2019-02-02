@@ -182,22 +182,18 @@ Example of the expected JSON response:
             {
               name: 'Revision A',
               value: 'A',
-              id: 0
             },
             {
               name: 'Revision B',
               value: 'B',
-              id: 0
             },
             {
               name: 'Revision C',
               value: 'C',
-              id: 0
             },
             {
               name: 'Revision D',
               value: 'D',
-              id: 0
             }
           ]
         }
@@ -219,13 +215,23 @@ The array "allowedIds" contains all allowed IDs for the entries within the refer
 
 The filter mechanism is flexible but can lead to unexpected results :D
 
-Note that the ID for each segment has NO special meaning for the client besides: 
+Note that the ID of an entry has NO special meaning for the client besides: 
+
 * an ID of 0 passes a filter always
 * the ID should match with the filter definitions
 * the ID should be an integer value.
 
+__Note that entries without an ID get the default ID value of 0.__
+
 To a add a code segment with a fixed value to all generated document codes just add the
 attribute "fixed:true" to the segment.
+
+To improve performance for large entry lists you can disable filtering by 
+setting the attribute "filtered:false" at the segment.
+
+To further improve performance you can set the attribute "filtering:false" at the segment. 
+This will stop the segment to cause any filter updates on subsequent segments. 
+__Should not be set on a segments which contain at least on entry with a filter.__ 
 
 ### Worth to know
 
@@ -238,4 +244,6 @@ Most of the configuration is done in the 'environments' folder.
 ## Versions
 
 * 1.0.0 - initial version
+* 1.0.1 - add better filter management
+
  

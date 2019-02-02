@@ -55,14 +55,23 @@ export class CodeSegment {
   filters: CodeSegmentFilterList;
   fixed = false;
 
+  filtering = true; // avoids that this will affect other segments
+  filtered = true; // avoids that entries are filtered
+
   constructor() {
     this.filters = new CodeSegmentFilterList(this);
   }
 
+  // adding empty filterDefintions to each entry for ALL
+  // segments on the right (of the segment list) makes
+  // resetting simple as this is actually the same as applying
+  // a filled filterDefiniton
   addEmptyFilterDefinitions(segmentNames: Array<string>) {
-    this.entries.forEach((entry) => {
-      entry.addEmptyFilterDefinitions(segmentNames);
-    });
+    if (this.filtering) {
+      this.entries.forEach((entry) => {
+        entry.addEmptyFilterDefinitions(segmentNames);
+      });
+    }
   }
 }
 
@@ -91,8 +100,7 @@ export class CodeSegmentEntry {
 export class CodeSegmentFactory {
 
   static buildEmptyCodeSegment(): CodeSegment {
-    const codeSegment = new CodeSegment();
-    return codeSegment;
+    return new CodeSegment();
   }
 
   static buildCodeSegmentFilterDefinition(codeSegment: CodeSegment, json: any): CodeSegmentFilterDefinition {
@@ -106,7 +114,11 @@ export class CodeSegmentFactory {
     codeSegmentEntry.segment = codeSegment;
     codeSegmentEntry.name = json.name;
     codeSegmentEntry.value = json.value;
-    codeSegmentEntry.id = json.id;
+
+    if (json.id !== undefined) {
+      codeSegmentEntry.id = json.id;
+    }
+
     if (json.filters !== undefined) {
       codeSegmentEntry.filterDefinitons = [];
       json.filters.forEach((filter) => {
@@ -124,6 +136,12 @@ export class CodeSegmentFactory {
     if (json.fixed !== undefined) {
       codeSegment.fixed = json.fixed;
     }
+    if (json.filtering !== undefined) {
+      codeSegment.filtering = json.filtering;
+    }
+    if (json.filtered !== undefined) {
+      codeSegment.filtered = json.filtered;
+    }
 
     json.entries.forEach((entry) => {
       codeSegment.entries.push(CodeSegmentFactory.buildCodeSegmentEntry(codeSegment, entry));
@@ -137,11 +155,11 @@ export class CodeSegmentFactory {
       codeSegments.push(CodeSegmentFactory.buildCodeSegment(entry));
     });
 
-    CodeSegmentFactory.prepare(codeSegments);
+    CodeSegmentFactory.prepareFilterDefinitions(codeSegments);
     return codeSegments;
   }
 
-  static prepare(codeSegments: CodeSegment[]) {
+  static prepareFilterDefinitions(codeSegments: CodeSegment[]) {
     const segmentNameList = Array<string>();
     codeSegments.forEach((codeSegment) => {
       segmentNameList.push(codeSegment.name);
@@ -149,6 +167,7 @@ export class CodeSegmentFactory {
 
     codeSegments.forEach((codeSegment, index) => {
       if (index + 1 < codeSegments.length) {
+        // only those to the right
         const rightOfThisSegmentNameList = segmentNameList.slice(index + 1);
         codeSegment.addEmptyFilterDefinitions(rightOfThisSegmentNameList);
       }

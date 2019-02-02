@@ -20,7 +20,7 @@ export class CodeService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  private errorHandler(error: Error | any) {
+  private static errorHandler(error: Error | any) {
     return throwError(error);
   }
 
@@ -29,7 +29,7 @@ export class CodeService {
     return this.http.get(url).pipe(
       retry(3),
       map((rawData: any) => CodeSegmentFactory.buildCodeSegments(rawData)),
-      catchError(this.errorHandler));
+      catchError(CodeService.errorHandler));
   }
 
   getCodesForProjectTEST(projectId: string): Observable<Array<CodeSegment>> {
@@ -44,7 +44,7 @@ export class CodeService {
       const url = `${this.beacon}`;
       return this.http.get(url).pipe(
         retry(3),
-        catchError(this.errorHandler));
+        catchError(CodeService.errorHandler));
     } else {
       return new Observable<any>(subscriber => {
         subscriber.complete();

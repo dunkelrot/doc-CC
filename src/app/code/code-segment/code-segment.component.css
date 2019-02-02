@@ -1,7 +1,21 @@
 .code-segment {
-  margin: 2px;
+  margin: 4px;
+
 }
 
-.fixed-segment {
-  display: none;
+@media all and (max-width: 600px) {
+  .code-segment {
+  }
+}
+
+@media all and (max-width: 400px) {
+  .code-segment {
+    width:220px;
+  }
+}
+
+@media all and (max-width: 300px) {
+  .code-segment {
+    width:100%;
+  }
 }

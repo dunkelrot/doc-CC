@@ -1,3 +1,8 @@
+.code-view {
+  margin:auto;
+  text-align: center;
+}
+
 .code-field {
   display: flex;
   align-items: center;
@@ -25,3 +30,18 @@
   justify-content: center;
   margin:auto;
 }
+
+.code-segments {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+
+@media all and (max-width: 300px) {
+  .code-segments {
+    flex-direction: column;
+  }
+}
+

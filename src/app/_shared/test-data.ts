@@ -9,7 +9,6 @@ export const testData = {
         {
           name: 'LCP_0815',
           value: 'LCP_0815',
-          id: 0
         }
       ]
     },
@@ -20,7 +19,6 @@ export const testData = {
         {
           name: 'K200',
           value: 'K200',
-          id: 0,
           filters: [
             {
               segment: 'TYPE',
@@ -35,7 +33,6 @@ export const testData = {
         {
           name: 'G300',
           value: 'G300',
-          id: 0
         }
       ]
     },
@@ -46,12 +43,10 @@ export const testData = {
         {
           name: 'Plot-Plan',
           value: '200',
-          id: 0,
         },
         {
           name: 'ISBL',
           value: '300',
-          id: 0
         },
         {
           name: 'Steelworks',
@@ -99,7 +94,6 @@ export const testData = {
         {
           name: 'Project Management',
           value: 'PM',
-          id: 0
         }
       ]
     },
@@ -125,7 +119,6 @@ export const testData = {
         {
           name: 'XLS',
           value: 'XLS',
-          id: 0
         }
       ]
     },
@@ -136,17 +129,14 @@ export const testData = {
         {
           name: 'Ready for Procurement',
           value: 'RFP',
-          id: 0
         },
         {
           name: 'Ready for Construction',
           value: 'RFC',
-          id: 0
         },
         {
           name: 'Ready for Detail Design',
           value: 'RFD',
-          id: 0
         },
       ]
     },
@@ -157,22 +147,18 @@ export const testData = {
         {
           name: 'Revision A',
           value: 'A',
-          id: 0
         },
         {
           name: 'Revision B',
           value: 'B',
-          id: 0
         },
         {
           name: 'Revision C',
           value: 'C',
-          id: 0
         },
         {
           name: 'Revision D',
           value: 'D',
-          id: 0
         }
       ]
     }
