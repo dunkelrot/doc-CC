@@ -19,6 +19,10 @@
   vertical-align: middle;
 }
 
+.code-field-good {
+  background: lightgreen;
+}
+
 .code-copy-button {
   margin-top:1em;
   text-align: center;

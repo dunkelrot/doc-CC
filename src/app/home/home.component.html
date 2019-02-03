@@ -10,7 +10,9 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary" class="gdc-toolbar">
         <span>Document Coding</span>
+        <a mat-button [routerLink]="['/about']" style="margin-left:3em" class="mat-small">About</a>
         <span style="margin-left:3em" class="mat-small">Version: {{version}}</span>
+
       </mat-toolbar>
 
       <app-alert></app-alert>

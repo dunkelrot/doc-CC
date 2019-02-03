@@ -14,14 +14,59 @@ which describes how the document code is generated.
 
 ## How to use it?
 
-The client application expects a certain response from the server to work correct.
+### Projects
+
+Often document codes are specific for certain projects (engineering projects). The client 
+provides a URL to list projects:
 
 The client URL is:
 
-http://server.com/project/id
+    http://client-server.com/projects
+  
+The client makes a GET call to 
 
-where 'id' is the project identifier which is provided to the content server via a GET call.``
+    http://server.com/projects
+    
+and expects a JSON response.
+
+Example of the expected JSON response:
+
+    {
+      projects: [
+        {
+          name: 'LCP_1234',
+          id: '1234',
+          shortDescription: 'Dark Moon',
+          description: 'Major expansion project for ABC'
+        },
+        {
+          name: 'LCP_5678',
+            id: '5678'
+        },
+        {
+          name: 'LCP_ABCD',
+            id: 'ABCD'
+        }
+      ]
+    };
+
+The attributes shortDescription and description are optional. The id attribute is used to 
+build the client URL for document coding page, see next section.
+
+### Document Codes
+
+The client URL is:
+
+    http://client-server.com/project/id
+
+where 'id' is the project identifier which is provided to the content server via a GET call.
+
+Therefore the client makes a GET call to 
+
+    http://server.com/project/:id
  
+end expects a JSON response.
+
 Example of the expected JSON response:
 
     {
@@ -245,5 +290,7 @@ Most of the configuration is done in the 'environments' folder.
 
 * 1.0.0 - initial version
 * 1.0.1 - add better filter management
+* 1.1.0 - add project list
+
 
  

@@ -12,8 +12,9 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CodeViewComponent implements OnInit {
 
-  codeSegments: CodeSegment[] = [];
+  codeSegments: CodeSegment[] = null;
   documentCode = '';
+  codeOk = false;
 
   @ViewChildren(CodeSegmentComponent) codeSegmentComponents: QueryList<CodeSegmentComponent>;
 
@@ -38,8 +39,10 @@ export class CodeViewComponent implements OnInit {
     });
 
     const codes = new Array<string>();
+    this.codeOk = true;
     this.codeSegmentComponents.forEach((component) => {
       codes.push(component.getSelectedCode());
+      this.codeOk = this.codeOk && component.hasSelectedCode();
     });
     this.documentCode = codes.join('-');
   }

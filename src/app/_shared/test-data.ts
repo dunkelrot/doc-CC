@@ -1,5 +1,5 @@
 
-export const testData = {
+export const testData_CodeSegments = {
   segments: [
     {
       name: 'PROJECT',
@@ -164,3 +164,24 @@ export const testData = {
     }
   ]
 };
+
+
+export const testData_Projects = {
+  projects: [
+    {
+      name: 'LCP_1234',
+      id: '1234',
+      shortDescription: 'Dark Moon',
+      description: 'Major plant expansion project for ABC'
+    },
+    {
+      name: 'LCP_5678',
+        id: '5678'
+    },
+    {
+      name: 'LCP_ABCD',
+        id: 'ABCD'
+    }
+  ]
+};
+

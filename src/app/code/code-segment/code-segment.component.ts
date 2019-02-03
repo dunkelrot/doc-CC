@@ -43,6 +43,10 @@ export class CodeSegmentComponent implements OnInit, OnChanges {
     this.getFilteredEntries();
   }
 
+  hasSelectedCode(): boolean {
+    return (this.selectedCode !== null);
+  }
+
   getSelectedCode(): string {
     if (this.selectedCode === null) {
       return '...';
@@ -61,6 +65,20 @@ export class CodeSegmentComponent implements OnInit, OnChanges {
       });
     } else {
       this.filteredCodes = this.codeSegment.entries;
+    }
+
+    // check if the current value is still available
+    if (this.selectedCode !== null) {
+      let found = false;
+      this.filteredCodes.forEach((entry) => {
+        if (this.selectedCode.value === entry.value) {
+          found = true;
+        }
+      });
+
+      if (!found) {
+        this.selectedCode = null;
+      }
     }
   }
 }

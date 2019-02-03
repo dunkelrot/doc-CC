@@ -4,9 +4,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CodeSegment, CodeSegmentFactory} from './code';
 import { throwError } from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
-import {map, catchError, retry} from 'rxjs/operators';
-import {testData} from './test-data';
-
+import {map, catchError, retry, delay} from 'rxjs/operators';
+import {testData_CodeSegments, testData_Projects} from './test-data';
+import {of} from 'rxjs/internal/observable/of';
 
 
 @Injectable()
@@ -25,7 +25,7 @@ export class CodeService {
   }
 
   getCodesForProject(projectId: string): Observable<Array<CodeSegment>> {
-    const url = `${this.api}/${projectId}`;
+    const url = `${this.api}/project/${projectId}`;
     return this.http.get(url).pipe(
       retry(3),
       map((rawData: any) => CodeSegmentFactory.buildCodeSegments(rawData)),
@@ -33,10 +33,10 @@ export class CodeService {
   }
 
   getCodesForProjectTEST(projectId: string): Observable<Array<CodeSegment>> {
-    return new Observable<Array<CodeSegment>>(subscriber => {
-      subscriber.next(CodeSegmentFactory.buildCodeSegments(testData));
-      subscriber.complete();
-    });
+    const result = of(CodeSegmentFactory.buildCodeSegments(testData_CodeSegments));
+    return result.pipe(
+      delay(1000)
+    );
   }
 
   sendBeacon(): Observable<any> {

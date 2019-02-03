@@ -1,17 +1,23 @@
-<div class="code-view">
-<div class="code-segments">
-  <app-code-segment *ngFor="let codeSegment of codeSegments" [codeSegment]="codeSegment" (codeSelected)="onCodeSelected($event)"></app-code-segment>
-</div>
-
-<hr>
-
-<div class="code-value">
-  <div class="code-field">
-    {{documentCode}}
+<div class="code-view" *ngIf="codeSegments !== null">
+  <div class="code-segments">
+    <app-code-segment *ngFor="let codeSegment of codeSegments" [codeSegment]="codeSegment" (codeSelected)="onCodeSelected($event)"></app-code-segment>
   </div>
 
-  <div class="code-copy-button">
-    <button mat-flat-button color="primary" (click)="onCopy()">Copy to Clipboard</button>
+  <hr>
+
+  <div class="code-value">
+    <div class="code-field" [ngClass]="{'code-field-good': codeOk}">
+      {{documentCode}}
+    </div>
+
+    <div class="code-copy-button">
+      <button mat-flat-button color="primary" (click)="onCopy()">Copy to Clipboard</button>
+    </div>
   </div>
 </div>
+
+<div *ngIf="codeSegments === null">
+  <mat-spinner class="spinner-centered"></mat-spinner>
 </div>
+
+
