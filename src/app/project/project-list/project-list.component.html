@@ -1,0 +1,9 @@
+<h2>Projects</h2>
+
+<div class="project-list" *ngIf="projectList !== null">
+  <app-project-item *ngFor="let project of projectList.projects" [project]="project"></app-project-item>
+</div>
+
+<div *ngIf="projectList === null">
+  <mat-spinner class="spinner-centered"></mat-spinner>
+</div>
