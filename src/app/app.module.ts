@@ -4,11 +4,11 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { CodeSegmentComponent } from './code/code-segment/code-segment.component';
-import { CodeViewComponent } from './code/code-view/code-view.component';
+import {CodeSegmentDirective, CodeViewComponent} from './code/code-view/code-view.component';
 import {CodeService} from './_shared/code-service';
 import {
   MatButtonModule, MatCardModule,
-  MatIconModule,
+  MatIconModule, MatInputModule,
   MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
@@ -24,6 +24,10 @@ import { ProjectListComponent } from './project/project-list/project-list.compon
 import { ProjectItemComponent } from './project/project-item/project-item.component';
 import {ProjectService} from './_shared/project-service';
 import { AboutComponent } from './home/about/about.component';
+import { CodeFieldComponent } from './code/code-field/code-field.component';
+import { CodeListComponent } from './code/code-list/code-list.component';
+import { CodeSegmentListDirective } from './_directives/code-segment-list.directive';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -35,7 +39,11 @@ import { AboutComponent } from './home/about/about.component';
     AlertComponent,
     ProjectListComponent,
     ProjectItemComponent,
-    AboutComponent
+    AboutComponent,
+    CodeFieldComponent,
+    CodeListComponent,
+    CodeSegmentListDirective,
+    CodeSegmentDirective
   ],
   imports: [
     routing,
@@ -48,13 +56,16 @@ import { AboutComponent } from './home/about/about.component';
     MatIconModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [
     CodeService,
     AlertService,
     ProjectService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ CodeListComponent, CodeFieldComponent],
 })
 export class AppModule { }

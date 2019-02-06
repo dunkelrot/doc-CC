@@ -10,6 +10,9 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary" class="gdc-toolbar">
         <span>Document Coding</span>
+        <a *ngIf="mailAddress !== null" href="mailto:{{mailAddress}}?subject=DC Idea" mat-flat-button color="primary">
+          <mat-icon>error_outline</mat-icon> I have an idea for improvement!
+        </a>
         <a mat-button [routerLink]="['/about']" style="margin-left:3em" class="mat-small">About</a>
         <span style="margin-left:3em" class="mat-small">Version: {{version}}</span>
 

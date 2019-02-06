@@ -1,10 +1,10 @@
+<div class="code-segments">
+  <ng-template app-code-segment></ng-template>
+</div>
+
+<hr>
+
 <div class="code-view" *ngIf="codeSegments !== null">
-  <div class="code-segments">
-    <app-code-segment *ngFor="let codeSegment of codeSegments" [codeSegment]="codeSegment" (codeSelected)="onCodeSelected($event)"></app-code-segment>
-  </div>
-
-  <hr>
-
   <div class="code-value">
     <div class="code-field" [ngClass]="{'code-field-good': codeOk}">
       {{documentCode}}

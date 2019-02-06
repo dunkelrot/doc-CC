@@ -3,6 +3,7 @@ export const testData_CodeSegments = {
   segments: [
     {
       name: 'PROJECT',
+      type: 'LIST',
       displayName: 'Project',
       fixed: true,
       entries: [
@@ -15,6 +16,7 @@ export const testData_CodeSegments = {
     {
       name: 'FACILITY',
       displayName: 'Facility Name',
+      type: 'LIST',
       entries: [
         {
           name: 'K200',
@@ -39,6 +41,7 @@ export const testData_CodeSegments = {
     {
       name: 'TYPE',
       displayName: 'Type',
+      type: 'LIST',
       entries: [
         {
           name: 'Plot-Plan',
@@ -75,6 +78,7 @@ export const testData_CodeSegments = {
     {
       name: 'DISCIPLINE',
       displayName: 'Discipline',
+      type: 'LIST',
       entries: [
         {
           name: 'Civil',
@@ -100,6 +104,7 @@ export const testData_CodeSegments = {
     {
       name: 'FORMAT',
       displayName: 'Format',
+      type: 'LIST',
       entries: [
         {
           name: 'PDF',
@@ -125,6 +130,7 @@ export const testData_CodeSegments = {
     {
       name: 'STATUS',
       displayName: 'Status',
+      type: 'LIST',
       entries: [
         {
           name: 'Ready for Procurement',
@@ -143,6 +149,7 @@ export const testData_CodeSegments = {
     {
       name: 'REVISION',
       displayName: 'Revision',
+      type: 'LIST',
       entries: [
         {
           name: 'Revision A',
@@ -161,6 +168,12 @@ export const testData_CodeSegments = {
           value: 'D',
         }
       ]
+    },
+    {
+      name: 'VERSION',
+      displayName: 'Version',
+      type: 'FIELD',
+      pattern: ''
     }
   ]
 };
