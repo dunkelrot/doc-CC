@@ -76,6 +76,13 @@ export const testData_CodeSegments = {
       ]
     },
     {
+      name: 'NUMBER',
+      displayName: 'Number',
+      type: 'FIELD',
+      pattern: '\\d{1,2}_\\d{1,2}',
+      required: true
+    },
+    {
       name: 'DISCIPLINE',
       displayName: 'Discipline',
       type: 'LIST',
@@ -173,7 +180,7 @@ export const testData_CodeSegments = {
       name: 'VERSION',
       displayName: 'Version',
       type: 'FIELD',
-      pattern: ''
+      pattern: '\\d*'
     }
   ]
 };

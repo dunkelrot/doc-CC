@@ -3,8 +3,8 @@ import {EventEmitter, Output} from '@angular/core';
 export interface CodeSegmentComponentItf {
   valueSelected: EventEmitter<CodeSegmentEntry|string>;
   name: string;
-  getSelectedValue(): string;
-  hasSelectedValue(): boolean;
+  getValue(): string;
+  isValid(): boolean;
   applyFilter(filterDef: CodeSegmentFilterDefinition): void;
 }
 
@@ -65,7 +65,9 @@ export class CodeSegment {
 
 export class CodeField extends CodeSegment {
 
-  pattern: '';
+  required = false;
+  pattern = '';
+
   constructor(public name: string, public displayName: string) {
     super(name, displayName);
   }
@@ -157,7 +159,12 @@ export class CodeSegmentFactory {
 
   static buildCodeField(json: any): CodeField {
     const codeField = new CodeField(json.name, json.displayName);
-    codeField.pattern = json.pattern;
+    if (json.pattern !== undefined) {
+      codeField.pattern = json.pattern;
+    }
+    if (json.required !== undefined) {
+      codeField.required = json.required;
+    }
     return codeField;
   }
 

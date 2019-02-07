@@ -1,16 +1,11 @@
 import {Component, ComponentFactoryResolver, Directive, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {CodeField, CodeList, CodeSegment, CodeSegmentComponentItf, CodeSegmentEntry} from '../../_shared/code';
 import {CodeService} from '../../_shared/code-service';
-import {CodeSegmentComponent} from '../code-segment/code-segment.component';
 import {AlertService} from '../../_shared/alert-service';
 import {ActivatedRoute} from '@angular/router';
 import {CodeListComponent} from '../code-list/code-list.component';
 import {CodeFieldComponent} from '../code-field/code-field.component';
 import {CodeSegmentListDirective} from '../../_directives/code-segment-list.directive';
-
-@Directive({selector: '.code-segment'})
-export class CodeSegmentDirective {
-}
 
 @Component({
   selector: 'app-code-view',
@@ -56,8 +51,8 @@ export class CodeViewComponent implements OnInit {
     this.codeOk = true;
     this.codeSegmentComponents.forEach((component) => {
       const codeSegmentItf: CodeSegmentComponentItf = <CodeSegmentComponentItf> component;
-      codes.push(codeSegmentItf.getSelectedValue());
-      this.codeOk = this.codeOk && codeSegmentItf.hasSelectedValue();
+      codes.push(codeSegmentItf.getValue());
+      this.codeOk = this.codeOk && codeSegmentItf.isValid();
     });
     this.documentCode = codes.join('-');
   }

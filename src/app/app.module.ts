@@ -1,10 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
 import { AppComponent } from './app.component';
-import { CodeSegmentComponent } from './code/code-segment/code-segment.component';
-import {CodeSegmentDirective, CodeViewComponent} from './code/code-view/code-view.component';
+import { CodeViewComponent} from './code/code-view/code-view.component';
 import {CodeService} from './_shared/code-service';
 import {
   MatButtonModule, MatCardModule,
@@ -27,13 +24,12 @@ import { AboutComponent } from './home/about/about.component';
 import { CodeFieldComponent } from './code/code-field/code-field.component';
 import { CodeListComponent } from './code/code-list/code-list.component';
 import { CodeSegmentListDirective } from './_directives/code-segment-list.directive';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CodeSegmentComponent,
     CodeViewComponent,
     HomeComponent,
     AlertComponent,
@@ -42,8 +38,7 @@ import {FormsModule} from '@angular/forms';
     AboutComponent,
     CodeFieldComponent,
     CodeListComponent,
-    CodeSegmentListDirective,
-    CodeSegmentDirective
+    CodeSegmentListDirective
   ],
   imports: [
     routing,
@@ -58,7 +53,8 @@ import {FormsModule} from '@angular/forms';
     MatProgressSpinnerModule,
     MatCardModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     CodeService,
