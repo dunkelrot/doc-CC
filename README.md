@@ -241,14 +241,29 @@ Example of the expected JSON response:
               value: 'D',
             }
           ]
-        }
+        },
+        {
+          name: 'NUMBER',
+          displayName: 'Number',
+          type: 'FIELD',
+          pattern: '\\d{1,2}_\\d{1,2}',
+          required: true
+        },        
       ]
     };
 
 
 Basically the structure describes a set of code segments from which the overall 
-document code is derived. Each code segment has a set of entries. Each entry can hold a 
-filter which limits the available entries at subsequent segments.
+document code is derived. 
+
+### Code segments
+
+Each code segment has a name, a display name and a type. Allowed types are:
+LIST and FIELD. 
+
+#### Closed List (type LIST)
+A closed list code segment has a set of entries. Each entry can hold a 
+filter which limits the available entries at subsequent code list segments.
 
 The filter works more or less like this:
 
@@ -256,7 +271,9 @@ The filter works more or less like this:
 * otherwise only those values which match all filters are displayed
 
 Which segment a filters modifies is defined via the "segment" attribute of a filter.
-The array "allowedIds" contains all allowed IDs for the entries within the referenced segment.
+The array "allowedIds" contains all allowed IDs for the entries within the 
+referenced segment. Which subsequent segment shall be filtered is defined via the 
+segment attribute which must hold the name of the targeted segment.
 
 The filter mechanism is flexible but can lead to unexpected results :D
 
@@ -272,11 +289,16 @@ To a add a code segment with a fixed value to all generated document codes just 
 attribute "fixed:true" to the segment.
 
 To improve performance for large entry lists you can disable filtering by 
-setting the attribute "filtered:false" at the segment.
+setting the attribute "filtered:false" at a segment.
 
 To further improve performance you can set the attribute "filtering:false" at the segment. 
 This will stop the segment to cause any filter updates on subsequent segments. 
-__Should not be set on a segments which contain at least on entry with a filter.__ 
+__Should not be set on segments which contain at least on entry with a filter.__ 
+
+#### Free Text Field (type FIELD)
+
+A free text code segment does not add any filters. You must define a pattern and 
+you can defined the segment as required.
 
 ### Worth to know
 
@@ -291,6 +313,8 @@ Most of the configuration is done in the 'environments' folder.
 * 1.0.0 - initial version
 * 1.0.1 - add better filter management
 * 1.1.0 - add project list
+* 1.1.1 - add free text field
+
 
 
  
