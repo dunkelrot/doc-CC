@@ -33,10 +33,15 @@ export class CodeService {
   }
 
   getCodesForProjectTEST(projectId: string): Observable<Array<CodeSegment>> {
-    const result = of(CodeSegmentFactory.buildCodeSegments(testData_CodeSegments));
-    return result.pipe(
-      delay(1000)
-    );
+    try {
+      const segments = CodeSegmentFactory.buildCodeSegments(testData_CodeSegments);
+      const result = of(segments);
+      return result.pipe(
+        delay(1000),
+      );
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
   sendBeacon(): Observable<any> {

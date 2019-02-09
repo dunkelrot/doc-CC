@@ -1,7 +1,12 @@
+
 <mat-form-field class="code-segment">
   <mat-select [disabled]="codeList.fixed" placeholder="{{codeList.displayName}}" [value]="selectedCode" (selectionChange)="onSelectValue($event)">
     <mat-option *ngFor="let code of filteredCodes" [value]="code">
       {{ code.name }}
     </mat-option>
   </mat-select>
+  <mat-hint>
+    <span><mat-icon>info</mat-icon></span>
+  </mat-hint>
 </mat-form-field>
+

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertService} from '../_shared/alert-service';
+import {AlertService} from '../_shared/alert.service';
 import {environment} from '../../environments/environment';
 
 

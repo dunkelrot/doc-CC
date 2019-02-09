@@ -1,7 +1,11 @@
 
 <mat-card class="project-card">
   <mat-card-header>
-    <div mat-card-avatar class="project-header-image"></div>
+    <div *ngIf="iconURL === null" mat-card-avatar class="project-header-image"></div>
+    <div *ngIf="iconURL !== null" mat-card-avatar class="project-header">
+      <!--suppress HtmlUnknownTarget -->
+      <img src="{{iconURL}}">
+    </div>
     <mat-card-title>{{project.name}}</mat-card-title>
     <mat-card-subtitle>{{project.shortDescription}}</mat-card-subtitle>
   </mat-card-header>

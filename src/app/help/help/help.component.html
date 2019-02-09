@@ -1,0 +1,13 @@
+<div class="help-view">
+  <section class="mat-typography">
+  <div class="help" *ngIf="content !== null" [@simpleFadeAnimation]="'in'">
+    <div class="help-title"></div>
+    <div class="help-text">
+      <markdown [data]="content"></markdown>
+    </div>
+    <div class="help-buttons">
+      <button mat-flat-button color="primary" (click)="onClose()">Ok, got it!</button>
+    </div>
+  </div>
+</section>
+</div>

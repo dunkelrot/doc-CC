@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ProjectList} from '../../_shared/project';
-import {ProjectService} from '../../_shared/project-service';
-import {AlertService} from '../../_shared/alert-service';
+import {ProjectService} from '../../_shared/project.service';
+import {AlertService} from '../../_shared/alert.service';
 
 @Component({
   selector: 'app-project-list',

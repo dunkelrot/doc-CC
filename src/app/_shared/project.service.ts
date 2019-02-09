@@ -7,7 +7,6 @@ import {catchError, delay, map, retry} from 'rxjs/operators';
 import {testData_Projects} from './test-data';
 import {ProjectFactory, ProjectList} from './project';
 import {of} from 'rxjs/internal/observable/of';
-import {pipe} from 'rxjs/internal-compatibility';
 
 @Injectable()
 export class ProjectService {
@@ -29,14 +28,20 @@ export class ProjectService {
     return this.http.get(url).pipe(
       retry(3),
       map((rawData: any) => ProjectFactory.buildProjectList(rawData)),
-      catchError(ProjectService.errorHandler));
+      catchError(ProjectService.errorHandler)
+    );
   }
 
   getProjectsTEST(): Observable<ProjectList> {
-    const result = of(ProjectFactory.buildProjectList(testData_Projects));
-    return result.pipe(
-      delay(1000)
-    );
+    try {
+      const projects = ProjectFactory.buildProjectList(testData_Projects);
+      const result = of(projects);
+      return result.pipe(
+        delay(1000),
+      );
+    } catch (error) {
+      return throwError(error);
+    }
   }
 
 }

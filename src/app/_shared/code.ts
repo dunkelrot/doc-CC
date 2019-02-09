@@ -5,11 +5,11 @@ export interface CodeSegmentComponentItf {
   name: string;
   getValue(): string;
   isValid(): boolean;
-  applyFilter(filterDef: CodeSegmentFilterDefinition): void;
+  applyFilter(filterDef: CodeListFilterDefinition): void;
 }
 
 
-export class CodeSegmentFilter {
+export class CodeListFilter {
 
   constructor(public sourceSegment: string, private allowedIDs: number[]) {
   }
@@ -19,7 +19,11 @@ export class CodeSegmentFilter {
       return true;
     } else {
       if (id !== 0) {
-        return this.allowedIDs.includes(id);
+        let found = false;
+        this.allowedIDs.forEach((allowedID) => {
+          found = found || allowedID === id;
+        });
+        return found;
       } else {
         return true;
       }
@@ -27,18 +31,18 @@ export class CodeSegmentFilter {
   }
 }
 
-export class CodeSegmentFilterList {
+export class CodeListFilterList {
 
-  filters: CodeSegmentFilter[] = [];
+  filters: CodeListFilter[] = [];
 
   constructor(private segment: CodeSegment) {
   }
 
-  applyFilterDefinition(filterDef: CodeSegmentFilterDefinition) {
+  applyFilterDefinition(filterDef: CodeListFilterDefinition) {
     this.filters = this.filters.filter((entry) => {
       return entry.sourceSegment !== filterDef.sourceSegment.name;
     });
-    this.filters.push(new CodeSegmentFilter(filterDef.sourceSegment.name, filterDef.allowedIDs));
+    this.filters.push(new CodeListFilter(filterDef.sourceSegment.name, filterDef.allowedIDs));
   }
 
   hasId(id: number) {
@@ -50,7 +54,7 @@ export class CodeSegmentFilterList {
   }
 }
 
-export class CodeSegmentFilterDefinition {
+export class CodeListFilterDefinition {
 
   allowedIDs: number[] = [];
 
@@ -59,6 +63,9 @@ export class CodeSegmentFilterDefinition {
 }
 
 export class CodeSegment {
+
+  helpTopicId: string = null;
+
   constructor(public name: string, public displayName: string) { }
 }
 
@@ -76,7 +83,7 @@ export class CodeField extends CodeSegment {
 
 export class CodeList extends CodeSegment {
   entries: CodeSegmentEntry[] = [];
-  filters: CodeSegmentFilterList;
+  filters: CodeListFilterList;
   fixed = false;
 
   filtering = true; // avoids that this will affect other segments
@@ -84,13 +91,13 @@ export class CodeList extends CodeSegment {
 
   constructor(public name: string, public displayName: string) {
     super(name, displayName);
-    this.filters = new CodeSegmentFilterList(this);
+    this.filters = new CodeListFilterList(this);
   }
 
-  // adding empty filterDefintions to each entry for ALL
+  // adding empty filter definitions to each entry for ALL
   // segments on the right (of the segment list) makes
   // resetting simple as this is actually the same as applying
-  // a filled filterDefiniton
+  // a filled filter definition
   addEmptyFilterDefinitions(segmentNames: Array<string>) {
     if (this.filtering) {
       this.entries.forEach((entry) => {
@@ -105,18 +112,18 @@ export class CodeSegmentEntry {
   name: string;
   value: string;
   id = 0;
-  filterDefinitons: CodeSegmentFilterDefinition[] = [];
+  filterDefinitions: CodeListFilterDefinition[] = [];
 
   addEmptyFilterDefinitions(segmentNames: Array<string>) {
     segmentNames.forEach((segmentName) => {
       let foundFilter = false;
-      this.filterDefinitons.forEach((filterDef) => {
+      this.filterDefinitions.forEach((filterDef) => {
         if (filterDef.targetSegmentName === segmentName) {
           foundFilter = true;
         }
       });
       if (foundFilter === false) {
-        this.filterDefinitons.push(new CodeSegmentFilterDefinition(this.segment, segmentName));
+        this.filterDefinitions.push(new CodeListFilterDefinition(this.segment, segmentName));
       }
     });
   }
@@ -124,83 +131,13 @@ export class CodeSegmentEntry {
 
 export class CodeSegmentFactory {
 
-  static buildEmptyCodeField(): CodeField {
-    return new CodeField('', '');
+  private static processCodeSegment(json: any, codeSegment: CodeSegment ) {
+    if (json.helpTopicId !== undefined) {
+      codeSegment.helpTopicId = json.helpTopicId;
+    }
   }
 
-  static buildEmptyCodeList(): CodeList {
-    return new CodeList('', '');
-  }
-
-  static buildCodeListFilterDefinition(codeSegment: CodeSegment, json: any): CodeSegmentFilterDefinition {
-    const codeSegmentFilterDefinition = new CodeSegmentFilterDefinition(codeSegment, json.segment);
-    codeSegmentFilterDefinition.allowedIDs = json.allowedIds;
-    return codeSegmentFilterDefinition;
-  }
-
-  static buildCodeListEntry(codeSegment: CodeSegment, json: any): CodeSegmentEntry {
-    const codeSegmentEntry = new CodeSegmentEntry();
-    codeSegmentEntry.segment = codeSegment;
-    codeSegmentEntry.name = json.name;
-    codeSegmentEntry.value = json.value;
-
-    if (json.id !== undefined) {
-      codeSegmentEntry.id = json.id;
-    }
-
-    if (json.filters !== undefined) {
-      codeSegmentEntry.filterDefinitons = [];
-      json.filters.forEach((filter) => {
-        codeSegmentEntry.filterDefinitons.push(CodeSegmentFactory.buildCodeListFilterDefinition(codeSegment, filter));
-      });
-    }
-    return codeSegmentEntry;
-  }
-
-  static buildCodeField(json: any): CodeField {
-    const codeField = new CodeField(json.name, json.displayName);
-    if (json.pattern !== undefined) {
-      codeField.pattern = json.pattern;
-    }
-    if (json.required !== undefined) {
-      codeField.required = json.required;
-    }
-    return codeField;
-  }
-
-  static buildCodeList(json: any): CodeList {
-    const codeList = new CodeList(json.name, json.displayName);
-    if (json.fixed !== undefined) {
-      codeList.fixed = json.fixed;
-    }
-    if (json.filtering !== undefined) {
-      codeList.filtering = json.filtering;
-    }
-    if (json.filtered !== undefined) {
-      codeList.filtered = json.filtered;
-    }
-
-    json.entries.forEach((entry) => {
-      codeList.entries.push(CodeSegmentFactory.buildCodeListEntry(codeList, entry));
-    });
-    return codeList;
-  }
-
-  static buildCodeSegments(json: any): Array<CodeSegment> {
-    const codeSegments = [];
-    json.segments.forEach((entry) => {
-      if (entry.type === 'LIST') {
-        codeSegments.push(CodeSegmentFactory.buildCodeList(entry));
-      } else if (entry.type === 'FIELD') {
-        codeSegments.push(CodeSegmentFactory.buildCodeField(entry));
-      }
-    });
-
-    CodeSegmentFactory.prepareFilterDefinitions(codeSegments);
-    return codeSegments;
-  }
-
-  static prepareFilterDefinitions(codeSegments: CodeSegment[]) {
+  private static prepareFilterDefinitions(codeSegments: CodeSegment[]) {
     const segmentNameList = Array<string>();
 
     codeSegments.forEach((codeSegment) => {
@@ -218,5 +155,91 @@ export class CodeSegmentFactory {
       }
     });
   }
+
+  static buildEmptyCodeField(): CodeField {
+    return new CodeField('', '');
+  }
+
+  static buildEmptyCodeList(): CodeList {
+    return new CodeList('', '');
+  }
+
+  static buildCodeListFilterDefinition(codeSegment: CodeSegment, json: any): CodeListFilterDefinition {
+    const codeSegmentFilterDefinition = new CodeListFilterDefinition(codeSegment, json.segment);
+    codeSegmentFilterDefinition.allowedIDs = json.allowedIds;
+    return codeSegmentFilterDefinition;
+  }
+
+  static buildCodeListEntry(codeSegment: CodeSegment, json: any): CodeSegmentEntry {
+    const codeSegmentEntry = new CodeSegmentEntry();
+    codeSegmentEntry.segment = codeSegment;
+    codeSegmentEntry.name = json.name;
+    codeSegmentEntry.value = json.value;
+
+    if (json.id !== undefined) {
+      codeSegmentEntry.id = json.id;
+    }
+
+    if (json.filters !== undefined) {
+      codeSegmentEntry.filterDefinitions = [];
+      json.filters.forEach((filter: any) => {
+        codeSegmentEntry.filterDefinitions.push(CodeSegmentFactory.buildCodeListFilterDefinition(codeSegment, filter));
+      });
+    }
+    return codeSegmentEntry;
+  }
+
+  static buildCodeField(json: any): CodeField {
+    const codeField = new CodeField(json.name, json.displayName);
+
+    if (json.pattern !== undefined) {
+      codeField.pattern = json.pattern;
+    }
+    if (json.required !== undefined) {
+      codeField.required = json.required;
+    }
+
+    CodeSegmentFactory.processCodeSegment(json, codeField);
+    return codeField;
+  }
+
+  static buildCodeList(json: any): CodeList {
+    const codeList = new CodeList(json.name, json.displayName);
+
+    if (json.fixed !== undefined) {
+      codeList.fixed = json.fixed;
+    }
+    if (json.filtering !== undefined) {
+      codeList.filtering = json.filtering;
+    }
+    if (json.filtered !== undefined) {
+      codeList.filtered = json.filtered;
+    }
+
+    json.entries.forEach((entry: any) => {
+      codeList.entries.push(CodeSegmentFactory.buildCodeListEntry(codeList, entry));
+    });
+
+    CodeSegmentFactory.processCodeSegment(json, codeList);
+    return codeList;
+  }
+
+  static buildCodeSegments(json: any): Array<CodeSegment> {
+
+    const codeSegments = [];
+
+    json.segments.forEach((entry: any) => {
+      if (entry.type === 'LIST') {
+        codeSegments.push(CodeSegmentFactory.buildCodeList(entry));
+      } else if (entry.type === 'FIELD') {
+        codeSegments.push(CodeSegmentFactory.buildCodeField(entry));
+      }
+    });
+
+    CodeSegmentFactory.prepareFilterDefinitions(codeSegments);
+    return codeSegments;
+  }
+
+
 
 }

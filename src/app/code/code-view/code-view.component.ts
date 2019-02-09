@@ -1,7 +1,7 @@
 import {Component, ComponentFactoryResolver, Directive, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {CodeField, CodeList, CodeSegment, CodeSegmentComponentItf, CodeSegmentEntry} from '../../_shared/code';
-import {CodeService} from '../../_shared/code-service';
-import {AlertService} from '../../_shared/alert-service';
+import {CodeService} from '../../_shared/code.service';
+import {AlertService} from '../../_shared/alert.service';
 import {ActivatedRoute} from '@angular/router';
 import {CodeListComponent} from '../code-list/code-list.component';
 import {CodeFieldComponent} from '../code-field/code-field.component';
@@ -37,7 +37,7 @@ export class CodeViewComponent implements OnInit {
 
   onCodeSelected(code: CodeSegmentEntry|string) {
     if (code instanceof CodeSegmentEntry) {
-      code.filterDefinitons.forEach((filterDef) => {
+      code.filterDefinitions.forEach((filterDef) => {
         this.codeSegmentComponents.forEach((component) => {
           const codeSegmentItf: CodeSegmentComponentItf = <CodeSegmentComponentItf>component;
           if (codeSegmentItf.name === filterDef.targetSegmentName) {

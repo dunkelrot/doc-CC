@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   version: '';
-  
+
   mailAddress = environment.mailAddress;
 
   private readonly _mobileQueryListener: () => void;

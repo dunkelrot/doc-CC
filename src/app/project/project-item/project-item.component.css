@@ -1,5 +1,11 @@
 .project-header-image {
+  /*noinspection CssUnknownTarget*/
   background-image: url('/assets/Emojione_1F680.svg.png');
+  background-size: contain;
+  border-radius: 10%;
+}
+
+.project-header {
   background-size: contain;
   border-radius: 10%;
 }

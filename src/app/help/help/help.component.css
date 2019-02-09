@@ -1,0 +1,13 @@
+.help-view {
+  max-width: 800px;
+  margin: auto;
+}
+
+
+.help {
+  margin: 0.4em;
+  padding: 0.6em;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: #FFFFA5;
+}

@@ -3,7 +3,7 @@
 ## For what is it good for?
 
 The DC-Client provides a simple UI to generate document codes (or document names) for 
-documents (or files). It is a pretty common requirement in large captial projects to 
+documents (or files). It is a pretty common requirement in large capital projects to 
 generate consistent document/file names which follow certain rules. This application helps
 the user to accomplish this task. 
 
@@ -59,9 +59,10 @@ The client URL is:
 
     http://client-server.com/project/id
 
-where 'id' is the project identifier which is provided to the content server via a GET call.
+where 'id' is the project identifier which is provided to the rules server via a GET call.
 
-Therefore the client makes a GET call to 
+Therefore the client makes a GET call to the rules server to retrieve a list of 
+available projects:
 
     http://server.com/project/:id
  
@@ -260,6 +261,28 @@ document code is derived.
 
 Each code segment has a name, a display name and a type. Allowed types are:
 LIST and FIELD. 
+
+You can add a helpTopicId attribute to each segment. The defined value (string) is used 
+to make a GET call to the rules server: 
+
+    http://client-server.com/help/id
+    
+The server should respond with a JSON response:
+
+    {
+      text: `
+       ## Help Topic
+      
+       Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+       sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+       ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+       magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+       takimata sanctus est Lorem ipsum dolor sit amet.
+      `
+    };
+_Note: This example shows a TypeScript template string._
+
+The help text can be in markdown format.  
 
 #### Closed List (type LIST)
 A closed list code segment has a set of entries. Each entry can hold a 

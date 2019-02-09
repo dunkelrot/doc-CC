@@ -4,6 +4,7 @@ export const environment = {
   server: 'http://localhost',
   server_angular: 'http://localhost',
   api: '/',
+  assets: '/assets',
   beaconServer : null,
   mailAddress: 'doc-coding-support@server.com'
 };

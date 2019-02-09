@@ -3,6 +3,7 @@ export class Project {
 
   shortDescription = '';
   description = '';
+  icon: string = null;
 
   constructor(public name: string, public id: string) { }
 
@@ -22,15 +23,25 @@ export class ProjectList {
 
 export class ProjectFactory {
 
-  static buildProject(json: any) {
-    const project = new Project(json.name, json.id);
-    if (json.shortDescription !== undefined) {
-      project.shortDescription = json.shortDescription;
+  static buildProject(json: any): Project {
+
+    if (json.name !== undefined && json.id !== undefined) {
+      const project = new Project(json.name, json.id);
+
+      if (json.shortDescription !== undefined) {
+        project.shortDescription = json.shortDescription;
+      }
+      if (json.description !== undefined) {
+        project.description = json.description;
+      }
+      if (json.icon !== undefined) {
+        project.icon = json.icon;
+      }
+
+      return project;
+    } else {
+      throw Error('Expected properties not present in JSON struct for Project.');
     }
-    if (json.description !== undefined) {
-      project.description = json.description;
-    }
-    return project;
   }
 
   static buildProjectList(json: any): ProjectList {

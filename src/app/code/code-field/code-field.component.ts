@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeSegmentFilterDefinition} from '../../_shared/code';
+import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
+import { HelpService } from '../../_shared/help.service';
 
 /** Error when invalid control */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -24,7 +25,7 @@ export class CodeFieldComponent implements OnInit, CodeSegmentComponentItf {
   valueFormControl = new FormControl('', []);
   matcher = new MyErrorStateMatcher();
 
-  constructor() { }
+  constructor(private helpService: HelpService) { }
 
   ngOnInit() {
     const validators = [Validators.pattern(this.codeField.pattern)];
@@ -34,7 +35,7 @@ export class CodeFieldComponent implements OnInit, CodeSegmentComponentItf {
     this.valueFormControl.setValidators(validators);
   }
 
-  applyFilter(filterDef: CodeSegmentFilterDefinition): void {
+  applyFilter(filterDef: CodeListFilterDefinition): void {
   }
 
   getValue(): string {
@@ -52,6 +53,10 @@ export class CodeFieldComponent implements OnInit, CodeSegmentComponentItf {
 
   onValueChanged() {
     this.valueSelected.emit(this.value);
+  }
+
+  onHelp() {
+    this.helpService.showHelpTopicByIdTEST('123');
   }
 
 }

@@ -1,21 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-/*'
-@import '~@angular/material/theming';
-
-$custom-typography: mat-typography-config(
-  $font-family: 'Raleway'
-)
- */
-
-
 body {
-  margin-top: 0px;
-  margin-right: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-
+  margin: 0;
   background: #fafafa;
 }
 
@@ -37,7 +24,7 @@ table.simple-table {
 }
 
 table.simple-table tr:last-child td {
-  border-bottom: 0px solid;
+  border-bottom: 0 solid;
 }
 
 table.simple-table tr td {

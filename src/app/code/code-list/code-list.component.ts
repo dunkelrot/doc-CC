@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
-import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeSegmentFilterDefinition} from '../../_shared/code';
+import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
 import {MatSelectChange} from '@angular/material';
-import {AlertService} from '../../_shared/alert-service';
+import {AlertService} from '../../_shared/alert.service';
 
 @Component({
   selector: 'app-code-list',
@@ -39,7 +39,7 @@ export class CodeListComponent implements OnInit, OnChanges, CodeSegmentComponen
     this.valueSelected.emit(selection.value);
   }
 
-  applyFilter(filterDefinition: CodeSegmentFilterDefinition): void {
+  applyFilter(filterDefinition: CodeListFilterDefinition): void {
     this.codeList.filters.applyFilterDefinition(filterDefinition);
     this.getFilteredEntries();
   }
