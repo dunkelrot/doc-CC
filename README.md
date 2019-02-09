@@ -337,6 +337,7 @@ Most of the configuration is done in the 'environments' folder.
 * 1.0.1 - add better filter management
 * 1.1.0 - add project list
 * 1.1.1 - add free text field
+* 1.2.0 - add simple help feature 
 
 
 
