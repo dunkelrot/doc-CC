@@ -174,7 +174,12 @@ export class CodeSegmentFactory {
     const codeSegmentEntry = new CodeSegmentEntry();
     codeSegmentEntry.segment = codeSegment;
     codeSegmentEntry.name = json.name;
-    codeSegmentEntry.value = json.value;
+
+    if (json.value === undefined) {
+      codeSegmentEntry.value = json.name;
+    } else {
+      codeSegmentEntry.value = json.value;
+    }
 
     if (json.id !== undefined) {
       codeSegmentEntry.id = json.id;

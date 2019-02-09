@@ -115,22 +115,18 @@ export const testData_CodeSegments = {
       entries: [
         {
           name: 'PDF',
-          value: 'PDF',
           id: 3
         },
         {
           name: 'XML',
-          value: 'XML',
           id: 3
         },
         {
           name: 'ISO',
-          value: 'ISO',
           id: 1
         },
         {
           name: 'XLS',
-          value: 'XLS',
         }
       ]
     },

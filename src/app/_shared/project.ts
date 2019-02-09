@@ -46,7 +46,7 @@ export class ProjectFactory {
 
   static buildProjectList(json: any): ProjectList {
     const projectList = new ProjectList();
-    json.projects.forEach((project) => {
+    json.projects.forEach((project: any) => {
       projectList.projects.push(ProjectFactory.buildProject(project));
     });
     return projectList;

@@ -285,8 +285,11 @@ _Note: This example shows a TypeScript template string._
 The help text can be in markdown format.  
 
 #### Closed List (type LIST)
-A closed list code segment has a set of entries. Each entry can hold a 
-filter which limits the available entries at subsequent code list segments.
+A closed list code segment has a set of entries. Each entry has a name and can have a value.
+In case a value is not provided the value will equal the name.
+
+Each entry can hold a filter which limits the available entries at subsequent 
+code list segments.
 
 The filter works more or less like this:
 
