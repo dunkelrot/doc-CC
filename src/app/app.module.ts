@@ -28,6 +28,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HelpService } from './_shared/help.service';
 import { HelpComponent } from './help/help/help.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { HelpIconComponent } from './help/help-icon/help-icon.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { MarkdownModule } from 'ngx-markdown';
     CodeFieldComponent,
     CodeListComponent,
     CodeSegmentListDirective,
-    HelpComponent
+    HelpComponent,
+    HelpIconComponent
   ],
   imports: [
     routing,

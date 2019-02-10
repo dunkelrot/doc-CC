@@ -55,3 +55,13 @@ h1.gdc-app-name {
   color: #666666;
   text-align: left;
 }
+
+a.app-title {
+  text-decoration: none;
+  color: white;
+}
+
+a.app-title :visited {
+  text-decoration: none;
+  color: white;
+}

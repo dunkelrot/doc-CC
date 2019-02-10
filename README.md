@@ -342,6 +342,5 @@ Most of the configuration is done in the 'environments' folder.
 * 1.1.1 - add free text field
 * 1.2.0 - add simple help feature 
 * 1.2.1 - add default value for list entries
-
-
+* 1.2.2 - show help icon only if helpTopic is defined
  

@@ -1,7 +1,7 @@
 import {EventEmitter, Output} from '@angular/core';
 
 export interface CodeSegmentComponentItf {
-  valueSelected: EventEmitter<CodeSegmentEntry|string>;
+  valueSelected: EventEmitter<CodeListEntry|string>;
   name: string;
   getValue(): string;
   isValid(): boolean;
@@ -82,7 +82,7 @@ export class CodeField extends CodeSegment {
 
 
 export class CodeList extends CodeSegment {
-  entries: CodeSegmentEntry[] = [];
+  entries: CodeListEntry[] = [];
   filters: CodeListFilterList;
   fixed = false;
 
@@ -107,7 +107,7 @@ export class CodeList extends CodeSegment {
   }
 }
 
-export class CodeSegmentEntry {
+export class CodeListEntry {
   segment: CodeSegment;
   name: string;
   value: string;
@@ -170,8 +170,8 @@ export class CodeSegmentFactory {
     return codeSegmentFilterDefinition;
   }
 
-  static buildCodeListEntry(codeSegment: CodeSegment, json: any): CodeSegmentEntry {
-    const codeSegmentEntry = new CodeSegmentEntry();
+  static buildCodeListEntry(codeSegment: CodeSegment, json: any): CodeListEntry {
+    const codeSegmentEntry = new CodeListEntry();
     codeSegmentEntry.segment = codeSegment;
     codeSegmentEntry.name = json.name;
 

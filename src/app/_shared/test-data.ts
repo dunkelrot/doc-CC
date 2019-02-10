@@ -176,7 +176,8 @@ export const testData_CodeSegments = {
       name: 'VERSION',
       displayName: 'Version',
       type: 'FIELD',
-      pattern: '\\d*'
+      pattern: '\\d*',
+      helpTopicId: '1'
     }
   ]
 };

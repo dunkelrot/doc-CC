@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
+import {CodeSegmentComponentItf, CodeListEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
-import { HelpService } from '../../_shared/help.service';
 
 /** Error when invalid control */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -19,13 +18,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class CodeFieldComponent implements OnInit, CodeSegmentComponentItf {
 
   @Input() codeField = CodeSegmentFactory.buildEmptyCodeField();
-  @Output() valueSelected = new EventEmitter<CodeSegmentEntry|string>();
+  @Output() valueSelected = new EventEmitter<CodeListEntry|string>();
 
   value = null;
   valueFormControl = new FormControl('', []);
   matcher = new MyErrorStateMatcher();
 
-  constructor(private helpService: HelpService) { }
+  constructor() { }
 
   ngOnInit() {
     const validators = [Validators.pattern(this.codeField.pattern)];
@@ -55,8 +54,6 @@ export class CodeFieldComponent implements OnInit, CodeSegmentComponentItf {
     this.valueSelected.emit(this.value);
   }
 
-  onHelp() {
-    this.helpService.showHelpTopicByIdTEST('123');
-  }
+
 
 }

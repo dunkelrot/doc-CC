@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
-import {CodeSegmentComponentItf, CodeSegmentEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
+import {CodeSegmentComponentItf, CodeListEntry, CodeSegmentFactory, CodeListFilterDefinition} from '../../_shared/code';
 import {MatSelectChange} from '@angular/material';
 import {AlertService} from '../../_shared/alert.service';
 
@@ -11,10 +11,10 @@ import {AlertService} from '../../_shared/alert.service';
 export class CodeListComponent implements OnInit, OnChanges, CodeSegmentComponentItf {
 
   @Input() codeList = CodeSegmentFactory.buildEmptyCodeList();
-  @Output() valueSelected = new EventEmitter<CodeSegmentEntry|string>();
+  @Output() valueSelected = new EventEmitter<CodeListEntry|string>();
 
-  selectedCode: CodeSegmentEntry = null;
-  filteredCodes: CodeSegmentEntry[] = [];
+  selectedCode: CodeListEntry = null;
+  filteredCodes: CodeListEntry[] = [];
 
   constructor(private alertService: AlertService) { }
 

@@ -1,5 +1,5 @@
 import {Component, ComponentFactoryResolver, Directive, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {CodeField, CodeList, CodeSegment, CodeSegmentComponentItf, CodeSegmentEntry} from '../../_shared/code';
+import {CodeField, CodeList, CodeSegment, CodeSegmentComponentItf, CodeListEntry} from '../../_shared/code';
 import {CodeService} from '../../_shared/code.service';
 import {AlertService} from '../../_shared/alert.service';
 import {ActivatedRoute} from '@angular/router';
@@ -35,8 +35,8 @@ export class CodeViewComponent implements OnInit {
     });
   }
 
-  onCodeSelected(code: CodeSegmentEntry|string) {
-    if (code instanceof CodeSegmentEntry) {
+  onCodeSelected(code: CodeListEntry|string) {
+    if (code instanceof CodeListEntry) {
       code.filterDefinitions.forEach((filterDef) => {
         this.codeSegmentComponents.forEach((component) => {
           const codeSegmentItf: CodeSegmentComponentItf = <CodeSegmentComponentItf>component;
@@ -82,7 +82,7 @@ export class CodeViewComponent implements OnInit {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(CodeListComponent);
         const componentRef = viewContainerRef.createComponent(componentFactory);
         (<CodeListComponent>componentRef.instance).codeList = codeSegment;
-        (<CodeListComponent>componentRef.instance).valueSelected.subscribe((code: CodeSegmentEntry) => {
+        (<CodeListComponent>componentRef.instance).valueSelected.subscribe((code: CodeListEntry) => {
           this.onCodeSelected(code);
         });
         this.codeSegmentComponents.push(<CodeSegmentComponentItf> componentRef.instance);
@@ -91,7 +91,7 @@ export class CodeViewComponent implements OnInit {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(CodeFieldComponent);
         const componentRef = viewContainerRef.createComponent(componentFactory);
         (<CodeFieldComponent>componentRef.instance).codeField = codeSegment;
-        (<CodeFieldComponent>componentRef.instance).valueSelected.subscribe((code: CodeSegmentEntry) => {
+        (<CodeFieldComponent>componentRef.instance).valueSelected.subscribe((code: CodeListEntry) => {
           this.onCodeSelected(code);
         });
         this.codeSegmentComponents.push(<CodeSegmentComponentItf> componentRef.instance);
