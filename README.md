@@ -3,12 +3,12 @@
 ## For what is it good for?
 
 The DC-Client provides a simple UI to generate document codes (or document names) for 
-documents (or files). It is a pretty common requirement in large capital projects to 
+documents/files. It is a pretty common requirement in large capital projects to 
 generate consistent document/file names which follow certain rules. This application helps
 the user to accomplish this task. 
 
 The DC-Client is a generic UI which requires a rules-server that provides a JSON structure 
-which describes how the document code is generated. 
+which describes how the document code gets generated. 
  
 ![Picture](./image.png)
 
@@ -16,18 +16,21 @@ which describes how the document code is generated.
 
 ### Projects
 
-Often document codes are specific for certain projects (engineering projects). The client 
-provides a URL to list projects:
+Often document codes are specific for certain projects (engineering projects). The DC-client application 
+offers an URL to list projects:
 
 The client URL is:
 
     http://client-server.com/projects
+
+Note that you need a standard HTTP server to provide the client app, it is basically a single page application.
+The server must be configured to deliver an Angular app. See the Angular documentation for more details.
   
-The client makes a GET call to 
+The DC-client makes a GET call to 
 
     http://server.com/projects
     
-and expects a JSON response.
+and expects a JSON response. The DC-client and the rules server can be the same.
 
 Example of the expected JSON response:
 
@@ -50,19 +53,19 @@ Example of the expected JSON response:
       ]
     };
 
+The DC-client will show a list of the available projects.
+
 The attributes shortDescription and description are optional. The id attribute is used to 
-build the client URL for document coding page, see next section.
+build the DC-client URL for the actual document coding page, see next section.
 
 ### Document Codes
 
-The client URL is:
+To generate document codes DC-client provides the endpoint:
 
     http://client-server.com/project/id
 
-where 'id' is the project identifier which is provided to the rules server via a GET call.
-
-Therefore the client makes a GET call to the rules server to retrieve a list of 
-available projects:
+where 'id' is the project identifier from the projects list. The DC-client will issue a GET request to the rules server  
+to retrieve the document coding configuration:
 
     http://server.com/project/:id
  
@@ -254,16 +257,13 @@ Example of the expected JSON response:
     };
 
 
-Basically the structure describes a set of code segments from which the overall 
-document code is derived. 
+Basically the structure describes a set of code segments from which the overall document code is assembled. 
 
 ### Code segments
 
-Each code segment has a name, a display name and a type. Allowed types are:
-LIST and FIELD. 
+Each code segment has a name, a display name and a type. Allowed types are: LIST and FIELD. 
 
-You can add a helpTopicId attribute to each segment. The defined value (string) is used 
-to make a GET call to the rules server: 
+You can add a helpTopicId attribute to each segment. The value from helpTopicId is used to make a GET call to the rules server: 
 
     http://client-server.com/help/id
     
@@ -280,6 +280,7 @@ The server should respond with a JSON response:
        takimata sanctus est Lorem ipsum dolor sit amet.
       `
     };
+    
 _Note: This example shows a TypeScript template string._
 
 The help text can be in markdown format.  
@@ -288,22 +289,21 @@ The help text can be in markdown format.
 A closed list code segment has a set of entries. Each entry has a name and can have a value.
 In case a value is not provided the value will equal the name.
 
-Each entry can hold a filter which limits the available entries at subsequent 
-code list segments.
+Each entry can hold a filter which limits the available entries at subsequent code list segments 
+depending on the selected value.
 
-The filter works more or less like this:
+The filter works like this:
 
 * entries with an ID of 0 pass a filter always
 * otherwise only those values which match all filters are displayed
 
-Which segment a filters modifies is defined via the "segment" attribute of a filter.
+Which code segment a filters modifies is defined via the "segment" attribute of a filter.
 The array "allowedIds" contains all allowed IDs for the entries within the 
-referenced segment. Which subsequent segment shall be filtered is defined via the 
-segment attribute which must hold the name of the targeted segment.
+referenced segment.
 
 The filter mechanism is flexible but can lead to unexpected results :D
 
-Note that the ID of an entry has NO special meaning for the client besides: 
+Note that the ID of an entry has NO special meaning for the DC-client besides: 
 
 * an ID of 0 passes a filter always
 * the ID should match with the filter definitions
@@ -311,14 +311,14 @@ Note that the ID of an entry has NO special meaning for the client besides:
 
 __Note that entries without an ID get the default ID value of 0.__
 
-To a add a code segment with a fixed value to all generated document codes just add the
+To add a code segment with a fixed value to all generated document codes just add the
 attribute "fixed:true" to the segment.
 
 To improve performance for large entry lists you can disable filtering by 
 setting the attribute "filtered:false" at a segment.
 
 To further improve performance you can set the attribute "filtering:false" at the segment. 
-This will stop the segment to cause any filter updates on subsequent segments. 
+This will stop the segment to cause any filter updates on subsequent segments.
 __Should not be set on segments which contain at least on entry with a filter.__ 
 
 #### Free Text Field (type FIELD)
@@ -328,7 +328,7 @@ you can defined the segment as required.
 
 ### Worth to know
 
-The client can send a "beacon" (= a http GET request) to a configured endpoint to enable to 
+The DC-client can send a "beacon" (= a http GET request) to a configured endpoint to enable to 
 usage statistics of the service. Besides the standard HTTP information no other information is
 provided to the beacon server. 
 
@@ -343,4 +343,4 @@ Most of the configuration is done in the 'environments' folder.
 * 1.2.0 - add simple help feature 
 * 1.2.1 - add default value for list entries
 * 1.2.2 - show help icon only if helpTopic is defined
- 
+
